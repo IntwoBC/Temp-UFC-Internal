@@ -13,27 +13,27 @@ page 50107 "UFC SI Error Log"
         {
             repeater(Errors)
             {
-                field("Created At"; Rec."Created At")
+                field("Created At"; Rec."I2I Created At")
                 {
                     ApplicationArea = All;
                 }
-                field("Error Stage"; Rec."Error Stage")
+                field("Error Stage"; Rec."I2I Error Stage")
                 {
                     ApplicationArea = All;
                 }
-                field("I6 Invoice ID"; Rec."I6 Invoice ID")
+                field("I6 Invoice ID"; Rec."I2I I6 Invoice ID")
                 {
                     ApplicationArea = All;
                 }
-                field("Header Entry No."; Rec."Header Entry No.")
+                field("Header Entry No."; Rec."I2I Header Entry No.")
                 {
                     ApplicationArea = All;
                 }
-                field("Correlation ID"; Rec."Correlation ID")
+                field("Correlation ID"; Rec."I2I Correlation ID")
                 {
                     ApplicationArea = All;
                 }
-                field(Message; Rec.Message)
+                field(Message; Rec."I2I Message")
                 {
                     ApplicationArea = All;
                 }

@@ -14,44 +14,44 @@ page 50105 "UFC SI Staging List"
         {
             repeater(StagingQueue)
             {
-                field("Entry No."; Rec."Entry No.")
+                field("Entry No."; Rec."I2I Entry No.")
                 {
                     ApplicationArea = All;
                 }
-                field("I6 Invoice ID"; Rec."I6 Invoice ID")
+                field("I6 Invoice ID"; Rec."I2I I6 Invoice ID")
                 {
                     ApplicationArea = All;
                 }
-                field("Customer No."; Rec."Customer No.")
+                field("Customer No."; Rec."I2I Customer No.")
                 {
                     ApplicationArea = All;
                 }
-                field("Shipment Date"; Rec."Shipment Date")
+                field("Shipment Date"; Rec."I2I Shipment Date")
                 {
                     ApplicationArea = All;
                 }
-                field("External Document No."; Rec."External Document No.")
+                field("External Document No."; Rec."I2I External Document No.")
                 {
                     ApplicationArea = All;
                 }
-                field("Location Code"; Rec."Location Code")
+                field("Location Code"; Rec."I2I Location Code")
                 {
                     ApplicationArea = All;
                 }
-                field("Integration Status"; Rec."Integration Status")
+                field("Integration Status"; Rec."I2I Integration Status")
                 {
                     ApplicationArea = All;
                     StyleExpr = StatusStyle;
                 }
-                field("Error Message"; Rec."Error Message")
+                field("Error Message"; Rec."I2I Error Message")
                 {
                     ApplicationArea = All;
                 }
-                field("Received At"; Rec."Received At")
+                field("Received At"; Rec."I2I Received At")
                 {
                     ApplicationArea = All;
                 }
-                field("Processed At"; Rec."Processed At")
+                field("Processed At"; Rec."I2I Processed At")
                 {
                     ApplicationArea = All;
                 }
@@ -62,7 +62,7 @@ page 50105 "UFC SI Staging List"
             part(StagingDetails; "UFC SI Staging Factbox")
             {
                 ApplicationArea = All;
-                SubPageLink = "Entry No." = field("Entry No.");
+                SubPageLink = "I2I Entry No." = field("I2I Entry No.");
             }
         }
     }
@@ -98,7 +98,7 @@ page 50105 "UFC SI Staging List"
                 var
                     LineStaging: Record "UFC SI Line Staging";
                 begin
-                    LineStaging.SetRange("Header Entry No.", Rec."Entry No.");
+                    LineStaging.SetRange("I2I Header Entry No.", Rec."I2I Entry No.");
                     Page.Run(Page::"UFC SI Staging Lines", LineStaging);
                 end;
             }
@@ -114,7 +114,7 @@ page 50105 "UFC SI Staging List"
                 var
                     ErrorLog: Record "UFC SI Error Log";
                 begin
-                    ErrorLog.SetRange("Header Entry No.", Rec."Entry No.");
+                    ErrorLog.SetRange("I2I Header Entry No.", Rec."I2I Entry No.");
                     Page.Run(Page::"UFC SI Error Log", ErrorLog);
                 end;
             }
@@ -128,7 +128,7 @@ page 50105 "UFC SI Staging List"
 
     local procedure SetStatusStyle()
     begin
-        case Rec."Integration Status" of
+        case Rec."I2I Integration Status" of
             Enum::"UFC SI Integration Status"::Open:
                 StatusStyle := 'StandardAccent';
             Enum::"UFC SI Integration Status"::Processing:

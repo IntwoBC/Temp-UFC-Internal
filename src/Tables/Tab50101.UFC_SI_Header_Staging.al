@@ -7,81 +7,81 @@ table 50101 "UFC SI Header Staging"
 
     fields
     {
-        field(1; "Entry No."; Integer)
+        field(1; "I2I Entry No."; Integer)
         {
             Caption = 'Entry No.';
             AutoIncrement = true;
             DataClassification = SystemMetadata;
         }
-        field(10; "I6 Invoice ID"; Code[20])
+        field(10; "I2I I6 Invoice ID"; Code[20])
         {
             Caption = 'i6 Invoice ID';
             DataClassification = CustomerContent;
         }
-        field(11; "Customer No."; Code[20])
+        field(11; "I2I Customer No."; Code[20])
         {
             Caption = 'Customer No.';
             DataClassification = CustomerContent;
             TableRelation = Customer;
         }
-        field(12; "Shipment Date"; Date)
+        field(12; "I2I Shipment Date"; Date)
         {
             Caption = 'Shipment Date';
             DataClassification = CustomerContent;
         }
-        field(13; "External Document No."; Code[35])
+        field(13; "I2I External Document No."; Code[35])
         {
             Caption = 'External Document No.';
             DataClassification = CustomerContent;
         }
-        field(14; "I6 VAT Code"; Code[20])
+        field(14; "I2I I6 VAT Code"; Code[20])
         {
             Caption = 'i6 VAT Code';
             DataClassification = CustomerContent;
         }
-        field(15; "VAT Business Posting Group"; Code[20])
+        field(15; "I2I VAT Business Posting Group"; Code[20])
         {
             Caption = 'VAT Business Posting Group';
             DataClassification = CustomerContent;
             TableRelation = "VAT Business Posting Group";
         }
-        field(16; "Location Code"; Code[10])
+        field(16; "I2I Location Code"; Code[10])
         {
             Caption = 'Location Code';
             DataClassification = CustomerContent;
             TableRelation = Location;
         }
-        field(17; "Integration Status"; Enum "UFC SI Integration Status")
+        field(17; "I2I Integration Status"; Enum "UFC SI Integration Status")
         {
             Caption = 'Integration Status';
             DataClassification = SystemMetadata;
         }
-        field(18; "Error Message"; Text[2048])
+        field(18; "I2I Error Message"; Text[2048])
         {
             Caption = 'Error Message';
             DataClassification = CustomerContent;
         }
-        field(19; "Received At"; DateTime)
+        field(19; "I2I Received At"; DateTime)
         {
             Caption = 'Received At';
             DataClassification = SystemMetadata;
         }
-        field(20; "Processed At"; DateTime)
+        field(20; "I2I Processed At"; DateTime)
         {
             Caption = 'Processed At';
             DataClassification = SystemMetadata;
         }
-        field(21; "Source System"; Code[20])
+        field(21; "I2I Source System"; Code[20])
         {
             Caption = 'Source System';
             DataClassification = SystemMetadata;
         }
-        field(22; "Correlation ID"; Text[100])
+        field(22; "I2I Correlation ID"; Text[100])
         {
             Caption = 'Correlation ID';
             DataClassification = SystemMetadata;
         }
-        field(23; "Target Invoice No."; Code[20])
+        field(23; "I2I Target Invoice No."; Code[20])
         {
             Caption = 'Target Invoice No.';
             DataClassification = CustomerContent;
@@ -91,17 +91,17 @@ table 50101 "UFC SI Header Staging"
 
     keys
     {
-        key(PK; "Entry No.")
+        key(PK; "I2I Entry No.")
         {
             Clustered = true;
         }
-        key(Invoice; "I6 Invoice ID")
+        key(Invoice; "I2I I6 Invoice ID")
         {
         }
-        key(Status; "Integration Status", "Received At")
+        key(Status; "I2I Integration Status", "I2I Received At")
         {
         }
-        key(Received; "Received At")
+        key(Received; "I2I Received At")
         {
         }
     }

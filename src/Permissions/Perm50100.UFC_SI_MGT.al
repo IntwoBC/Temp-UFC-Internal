@@ -11,12 +11,16 @@ permissionset 50100 "UFC SI MGT"
         tabledata "UFC SI VAT Mapping" = RIMD,
         tabledata "UFC SI Hydrant Location" = RIMD,
         tabledata "UFC SI Activity Cue" = RIMD,
+        tabledata "I2I Purchase Order Hdr Staging" = RIMD,
+        tabledata "I2I Purchase Order Line Stag." = RIMD,
         codeunit "UFC SI Error Mgt" = X,
         codeunit "UFC SI Import Mgt" = X,
         codeunit "UFC SI Create Invoice" = X,
         codeunit "UFC SI Processing Mgt" = X,
         codeunit "UFC SI Job Runner" = X,
         codeunit "UFC i6 SI Inbound Service" = X,
+        codeunit "I2I-I6 Purchase Order Import" = X,
+        codeunit "I2I UFC Purch. Order Process." = X,
         page "UFC SI Integration Setup" = X,
         page "UFC SI VAT Mapping" = X,
         page "UFC SI Hydrant Locations" = X,
@@ -28,5 +32,7 @@ permissionset 50100 "UFC SI MGT"
         page "UFC SI Activities" = X,
         page "UFC SI Recent Entries" = X,
         page "UFC SI Control Center" = X,
-        page "UFC Integration Dashboard" = X;
+        page "UFC Integration Dashboard" = X,
+        page "I2I Purchase Order Hdr Staging" = X,
+        page "I2I Purchase Order Line Stag." = X;
 }

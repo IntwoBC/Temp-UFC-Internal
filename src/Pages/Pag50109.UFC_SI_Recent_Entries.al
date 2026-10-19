@@ -4,7 +4,7 @@ page 50109 "UFC SI Recent Entries"
     Caption = 'Recent Staging Entries';
     PageType = ListPart;
     SourceTable = "UFC SI Header Staging";
-    SourceTableView = sorting("Received At") order(descending);
+    SourceTableView = sorting("I2I Received At") order(descending);
     Editable = false;
 
     layout
@@ -13,23 +13,23 @@ page 50109 "UFC SI Recent Entries"
         {
             repeater(Entries)
             {
-                field("I6 Invoice ID"; Rec."I6 Invoice ID")
+                field("I6 Invoice ID"; Rec."I2I I6 Invoice ID")
                 {
                     ApplicationArea = All;
                 }
-                field("Customer No."; Rec."Customer No.")
+                field("Customer No."; Rec."I2I Customer No.")
                 {
                     ApplicationArea = All;
                 }
-                field("Location Code"; Rec."Location Code")
+                field("Location Code"; Rec."I2I Location Code")
                 {
                     ApplicationArea = All;
                 }
-                field("Integration Status"; Rec."Integration Status")
+                field("Integration Status"; Rec."I2I Integration Status")
                 {
                     ApplicationArea = All;
                 }
-                field("Received At"; Rec."Received At")
+                field("Received At"; Rec."I2I Received At")
                 {
                     ApplicationArea = All;
                 }

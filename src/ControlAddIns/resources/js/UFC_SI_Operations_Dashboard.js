@@ -689,7 +689,7 @@ button { font: inherit; }
         const header = hubNode('header', 'ufc-hub-header');
         const titles = hubNode('div');
         titles.appendChild(hubNode('h1', '', 'UFC Integration Dashboard'));
-        titles.appendChild(hubNode('p', 'ufc-hub-subtitle', 'One workspace for sales integration and configuration.'));
+        titles.appendChild(hubNode('p', 'ufc-hub-subtitle', 'One workspace for sales, purchase integration, and configuration.'));
         header.appendChild(titles);
         header.appendChild(hubNode('span', 'ufc-hub-badge', 'i6 → Business Central'));
         hub.appendChild(header);
@@ -700,6 +700,7 @@ button { font: inherit; }
             { label: 'Needs review', value: model.salesFailed },
             { label: 'Processing', value: model.salesProcessing }
         ]));
+        cards.appendChild(hubCard('purchase', 'PURCHASE', 'Purchase Integration', 'Receive i6 purchase orders, review staging records, and create purchase orders in Business Central.', 'Purchase', 'OpenPurchase'));
         cards.appendChild(hubCard('setup', 'COMMON SETUP', 'Integration Setup', 'Maintain inbound i6 service status, mapping, and integration configuration.', 'Setup', 'OpenSetup'));
         hub.appendChild(cards);
         document.body.appendChild(hub);

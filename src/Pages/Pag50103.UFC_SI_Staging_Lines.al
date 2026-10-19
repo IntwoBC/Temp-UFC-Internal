@@ -13,56 +13,56 @@ page 50103 "UFC SI Staging Lines"
         {
             repeater(Lines)
             {
-                field("I6 Line Item Number"; Rec."I6 Line Item Number")
+                field("I6 Line Item Number"; Rec."I2I I6 Line Item Number")
                 {
                     ApplicationArea = All;
                 }
-                field("Item No."; Rec."Item No.")
+                field("Item No."; Rec."I2I Item No.")
                 {
                     ApplicationArea = All;
                 }
-                field(Description; Rec.Description)
+                field(Description; Rec."I2I Description")
                 {
                     ApplicationArea = All;
                 }
-                field("Location Code"; Rec."Location Code")
+                field("Location Code"; Rec."I2I Location Code")
                 {
                     ApplicationArea = All;
                 }
-                field(Quantity; Rec.Quantity)
+                field(Quantity; Rec."I2I Quantity")
                 {
                     ApplicationArea = All;
                 }
-                field("Unit of Measure Code"; Rec."Unit of Measure Code")
+                field("Unit of Measure Code"; Rec."I2I Unit of Measure Code")
                 {
                     ApplicationArea = All;
                 }
-                field("Unit Price Excl. Tax"; Rec."Unit Price Excl. Tax")
+                field("Unit Price Excl. Tax"; Rec."I2I Unit Price Excl. Tax")
                 {
                     ApplicationArea = All;
                 }
-                field("Ticket No."; Rec."Ticket No.")
+                field("Ticket No."; Rec."I2I Ticket No.")
                 {
                     ApplicationArea = All;
                 }
-                field(Destination; Rec.Destination)
+                field(Destination; Rec."I2I Destination")
                 {
                     ApplicationArea = All;
                 }
-                field(Registration; Rec.Registration)
+                field(Registration; Rec."I2I Registration")
                 {
                     ApplicationArea = All;
                 }
-                field("Flight No."; Rec."Flight No.")
+                field("Flight No."; Rec."I2I Flight No.")
                 {
                     ApplicationArea = All;
                 }
-                field("Integration Status"; Rec."Integration Status")
+                field("Integration Status"; Rec."I2I Integration Status")
                 {
                     ApplicationArea = All;
                     StyleExpr = LineStatusStyle;
                 }
-                field("Error Message"; Rec."Error Message")
+                field("Error Message"; Rec."I2I Error Message")
                 {
                     ApplicationArea = All;
                 }
@@ -77,7 +77,7 @@ page 50103 "UFC SI Staging Lines"
 
     local procedure SetLineStatusStyle()
     begin
-        case Rec."Integration Status" of
+        case Rec."I2I Integration Status" of
             Enum::"UFC SI Integration Status"::Open:
                 LineStatusStyle := 'StandardAccent';
             Enum::"UFC SI Integration Status"::Processing:

@@ -12,15 +12,15 @@ page 50102 "UFC SI Hydrant Locations"
         {
             repeater(Control1)
             {
-                field("Location Code"; Rec."Location Code")
+                field("Location Code"; Rec."I2I Location Code")
                 {
                     ApplicationArea = All;
                 }
-                field("Auto Purchase Enabled"; Rec."Auto Purchase Enabled")
+                field("Auto Purchase Enabled"; Rec."I2I Auto Purchase Enabled")
                 {
                     ApplicationArea = All;
                 }
-                field("Vendor No."; Rec."Vendor No.")
+                field("Vendor No."; Rec."I2I Vendor No.")
                 {
                     ApplicationArea = All;
                 }

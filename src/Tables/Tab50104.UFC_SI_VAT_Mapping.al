@@ -7,18 +7,18 @@ table 50104 "UFC SI VAT Mapping"
 
     fields
     {
-        field(1; "I6 VAT Code"; Code[20])
+        field(1; "I2I I6 VAT Code"; Code[20])
         {
             Caption = 'i6 VAT Code';
             DataClassification = CustomerContent;
         }
-        field(2; "VAT Business Posting Group"; Code[20])
+        field(2; "I2I VAT Bus. Posting Group"; Code[20])
         {
             Caption = 'VAT Business Posting Group';
             DataClassification = CustomerContent;
             TableRelation = "VAT Business Posting Group";
         }
-        field(3; Description; Text[100])
+        field(3; "I2I Description"; Text[100])
         {
             Caption = 'Description';
             DataClassification = CustomerContent;
@@ -27,7 +27,7 @@ table 50104 "UFC SI VAT Mapping"
 
     keys
     {
-        key(PK; "I6 VAT Code")
+        key(PK; "I2I I6 VAT Code")
         {
             Clustered = true;
         }

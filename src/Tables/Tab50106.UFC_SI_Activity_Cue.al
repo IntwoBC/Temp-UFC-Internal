@@ -5,40 +5,40 @@ table 50106 "UFC SI Activity Cue"
 
     fields
     {
-        field(1; "Primary Key"; Code[10])
+        field(1; "I2I Primary Key"; Code[10])
         {
             Caption = 'Primary Key';
             DataClassification = SystemMetadata;
         }
-        field(10; "Ready to Process"; Integer)
+        field(10; "I2I Ready to Process"; Integer)
         {
             Caption = 'Ready to Process';
             FieldClass = FlowField;
-            CalcFormula = count("UFC SI Header Staging" where("Integration Status" = const(Open)));
+            CalcFormula = count("UFC SI Header Staging" where("I2I Integration Status" = const(Open)));
         }
-        field(11; "Attention Required"; Integer)
+        field(11; "I2I Attention Required"; Integer)
         {
             Caption = 'Attention Required';
             FieldClass = FlowField;
-            CalcFormula = count("UFC SI Header Staging" where("Integration Status" = const(Failed)));
+            CalcFormula = count("UFC SI Header Staging" where("I2I Integration Status" = const(Failed)));
         }
-        field(12; "In Progress"; Integer)
+        field(12; "I2I In Progress"; Integer)
         {
             Caption = 'In Progress';
             FieldClass = FlowField;
-            CalcFormula = count("UFC SI Header Staging" where("Integration Status" = const(Processing)));
+            CalcFormula = count("UFC SI Header Staging" where("I2I Integration Status" = const(Processing)));
         }
-        field(13; "Processed Successfully"; Integer)
+        field(13; "I2I Processed Successfully"; Integer)
         {
             Caption = 'Processed Successfully';
             FieldClass = FlowField;
-            CalcFormula = count("UFC SI Header Staging" where("Integration Status" = const(Success)));
+            CalcFormula = count("UFC SI Header Staging" where("I2I Integration Status" = const(Success)));
         }
     }
 
     keys
     {
-        key(PK; "Primary Key")
+        key(PK; "I2I Primary Key")
         {
             Clustered = true;
         }
@@ -46,7 +46,7 @@ table 50106 "UFC SI Activity Cue"
 
     trigger OnInsert()
     begin
-        if "Primary Key" = '' then
-            "Primary Key" := 'CUE';
+        if "I2I Primary Key" = '' then
+            "I2I Primary Key" := 'CUE';
     end;
 }

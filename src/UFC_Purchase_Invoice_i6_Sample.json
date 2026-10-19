@@ -1,0 +1,23 @@
+{
+  "Header": {
+    "OrderNumber": "PO20515",
+    "VendorNumber": "10000",
+    "POdate": "2026-03-03"
+  },
+  "Body": [
+    {
+      "LineNo": 10000,
+      "Item": "1896-S",
+      "Location": "EAST",
+      "QuantityRecieved": 10,
+      "UnitOfMeasure": "PCS"
+    },
+    {
+      "LineNo": 20000,
+      "Item": "1896-S",
+      "Location": "EAST",
+      "QuantityRecieved": 5,
+      "UnitOfMeasure": "PCS"
+    }
+  ]
+}

@@ -113,13 +113,13 @@ page 50110 "UFC SI Control Center"
         Model.Add('success', CountByStatus(Enum::"UFC SI Integration Status"::Success));
         Model.Add('total', HeaderStaging.Count());
         Model.Add('errorLogCount', ErrorLog.Count());
-        ErrorLog.SetRange("Header Entry No.", 0);
+        ErrorLog.SetRange("I2I Header Entry No.", 0);
         Model.Add('preStagingErrorCount', ErrorLog.Count());
 
         if Setup.Get('SETUP') then begin
-            Model.Add('inboundEnabled', Setup."Pull Enabled");
-            if Setup."Last Pull At" <> 0DT then
-                Model.Add('lastActivity', Format(Setup."Last Pull At"))
+            Model.Add('inboundEnabled', Setup."I2I Pull Enabled");
+            if Setup."I2I Last Pull At" <> 0DT then
+                Model.Add('lastActivity', Format(Setup."I2I Last Pull At"))
             else
                 Model.Add('lastActivity', 'No i6 receipt or test upload has been completed.');
         end else begin
@@ -127,17 +127,17 @@ page 50110 "UFC SI Control Center"
             Model.Add('lastActivity', 'Integration setup has not been created.');
         end;
 
-        HeaderStaging.SetCurrentKey("Received At");
+        HeaderStaging.SetCurrentKey("I2I Received At");
         HeaderStaging.Ascending(false);
         if HeaderStaging.FindSet() then
             repeat
                 Clear(Entry);
-                Entry.Add('entryNo', HeaderStaging."Entry No.");
-                Entry.Add('invoiceId', HeaderStaging."I6 Invoice ID");
-                Entry.Add('customerNo', HeaderStaging."Customer No.");
-                Entry.Add('locationCode', HeaderStaging."Location Code");
-                Entry.Add('status', Format(HeaderStaging."Integration Status"));
-                Entry.Add('receivedAt', Format(HeaderStaging."Received At"));
+                Entry.Add('entryNo', HeaderStaging."I2I Entry No.");
+                Entry.Add('invoiceId', HeaderStaging."I2I I6 Invoice ID");
+                Entry.Add('customerNo', HeaderStaging."I2I Customer No.");
+                Entry.Add('locationCode', HeaderStaging."I2I Location Code");
+                Entry.Add('status', Format(HeaderStaging."I2I Integration Status"));
+                Entry.Add('receivedAt', Format(HeaderStaging."I2I Received At"));
                 Entries.Add(Entry);
                 EntryCount += 1;
             until (HeaderStaging.Next() = 0) or (EntryCount = 10);
@@ -151,7 +151,7 @@ page 50110 "UFC SI Control Center"
     var
         HeaderStaging: Record "UFC SI Header Staging";
     begin
-        HeaderStaging.SetRange("Integration Status", Status);
+        HeaderStaging.SetRange("I2I Integration Status", Status);
         exit(HeaderStaging.Count());
     end;
 

@@ -11,17 +11,17 @@ codeunit 50101 "UFC SI Import Mgt"
         EnsureSetup(Setup);
         CorrelationId := Format(CreateGuid());
 
-        if not Setup."Pull Enabled" then
+        if not Setup."I2I Pull Enabled" then
             LogInboundErrorAndFail(Setup, Enum::"UFC SI Error Stage"::Endpoint, '', CorrelationId, 'The UFC i6 inbound service is disabled.');
 
-        if not BuildValidatedPayload(PayloadText, Setup."Default Source System", CorrelationId, HeaderTemp, LineTemp, ErrorText) then
-            LogInboundErrorAndFail(Setup, Enum::"UFC SI Error Stage"::MandatoryValidation, HeaderTemp."I6 Invoice ID", CorrelationId, ErrorText);
+        if not BuildValidatedPayload(PayloadText, Setup."I2I Default Source System", CorrelationId, HeaderTemp, LineTemp, ErrorText) then
+            LogInboundErrorAndFail(Setup, Enum::"UFC SI Error Stage"::MandatoryValidation, HeaderTemp."I2I I6 Invoice ID", CorrelationId, ErrorText);
 
-        if not CheckDuplicateInvoice(HeaderTemp."I6 Invoice ID", ErrorText) then
-            LogInboundErrorAndFail(Setup, Enum::"UFC SI Error Stage"::Staging, HeaderTemp."I6 Invoice ID", CorrelationId, ErrorText);
+        if not CheckDuplicateInvoice(HeaderTemp."I2I I6 Invoice ID", ErrorText) then
+            LogInboundErrorAndFail(Setup, Enum::"UFC SI Error Stage"::Staging, HeaderTemp."I2I I6 Invoice ID", CorrelationId, ErrorText);
 
         StoreValidatedPayload(HeaderTemp, LineTemp);
-        UpdatePullResult(Setup, StrSubstNo('Received and staged i6 invoice %1.', HeaderTemp."I6 Invoice ID"));
+        UpdatePullResult(Setup, StrSubstNo('Received and staged i6 invoice %1.', HeaderTemp."I2I I6 Invoice ID"));
         exit(BuildSuccessResponse(HeaderTemp, CorrelationId));
     end;
 
@@ -46,19 +46,19 @@ codeunit 50101 "UFC SI Import Mgt"
         EnsureSetup(Setup);
         CorrelationId := Format(CreateGuid());
 
-        if not Setup."Pull Enabled" then begin
+        if not Setup."I2I Pull Enabled" then begin
             UpdatePullResult(Setup, 'Pull is disabled.');
             exit;
         end;
 
-        if Setup."Endpoint URL" = '' then begin
+        if Setup."I2I Endpoint URL" = '' then begin
             ErrorText := 'The i6 endpoint URL has not been configured.';
             ErrorMgt.LogError(Enum::"UFC SI Error Stage"::Endpoint, '', 0, CorrelationId, ErrorText);
             UpdatePullResult(Setup, ErrorText);
             exit;
         end;
 
-        if Setup."Authorization Type" <> Enum::"UFC SI Authorization Type"::None then begin
+        if Setup."I2I Authorization Type" <> Enum::"UFC SI Authorization Type"::None then begin
             IsHandled := false;
             OnResolveAuthorizationHeader(Setup, HeaderName, HeaderValue, IsHandled);
             if not IsHandled then begin
@@ -87,20 +87,20 @@ codeunit 50101 "UFC SI Import Mgt"
         end;
 
         Response.Content.ReadAs(ResponseText);
-        if not BuildValidatedPayload(ResponseText, Setup."Default Source System", CorrelationId, HeaderTemp, LineTemp, ErrorText) then begin
-            ErrorMgt.LogError(Enum::"UFC SI Error Stage"::MandatoryValidation, HeaderTemp."I6 Invoice ID", 0, CorrelationId, ErrorText);
+        if not BuildValidatedPayload(ResponseText, Setup."I2I Default Source System", CorrelationId, HeaderTemp, LineTemp, ErrorText) then begin
+            ErrorMgt.LogError(Enum::"UFC SI Error Stage"::MandatoryValidation, HeaderTemp."I2I I6 Invoice ID", 0, CorrelationId, ErrorText);
             UpdatePullResult(Setup, ErrorText);
             exit;
         end;
 
-        if not CheckDuplicateInvoice(HeaderTemp."I6 Invoice ID", ErrorText) then begin
-            ErrorMgt.LogError(Enum::"UFC SI Error Stage"::Staging, HeaderTemp."I6 Invoice ID", 0, CorrelationId, ErrorText);
+        if not CheckDuplicateInvoice(HeaderTemp."I2I I6 Invoice ID", ErrorText) then begin
+            ErrorMgt.LogError(Enum::"UFC SI Error Stage"::Staging, HeaderTemp."I2I I6 Invoice ID", 0, CorrelationId, ErrorText);
             UpdatePullResult(Setup, ErrorText);
             exit;
         end;
 
         StoreValidatedPayload(HeaderTemp, LineTemp);
-        UpdatePullResult(Setup, StrSubstNo('Staged i6 invoice %1.', HeaderTemp."I6 Invoice ID"));
+        UpdatePullResult(Setup, StrSubstNo('Staged i6 invoice %1.', HeaderTemp."I2I I6 Invoice ID"));
     end;
 
     procedure ImportJsonFile(PayloadText: Text; FileName: Text)
@@ -114,20 +114,20 @@ codeunit 50101 "UFC SI Import Mgt"
         EnsureSetup(Setup);
         CorrelationId := Format(CreateGuid());
 
-        if not BuildValidatedPayload(PayloadText, Setup."Default Source System", CorrelationId, HeaderTemp, LineTemp, ErrorText) then begin
-            ErrorMgt.LogError(Enum::"UFC SI Error Stage"::MandatoryValidation, HeaderTemp."I6 Invoice ID", 0, CorrelationId, ErrorText);
+        if not BuildValidatedPayload(PayloadText, Setup."I2I Default Source System", CorrelationId, HeaderTemp, LineTemp, ErrorText) then begin
+            ErrorMgt.LogError(Enum::"UFC SI Error Stage"::MandatoryValidation, HeaderTemp."I2I I6 Invoice ID", 0, CorrelationId, ErrorText);
             UpdatePullResult(Setup, ErrorText);
             exit;
         end;
 
-        if not CheckDuplicateInvoice(HeaderTemp."I6 Invoice ID", ErrorText) then begin
-            ErrorMgt.LogError(Enum::"UFC SI Error Stage"::Staging, HeaderTemp."I6 Invoice ID", 0, CorrelationId, ErrorText);
+        if not CheckDuplicateInvoice(HeaderTemp."I2I I6 Invoice ID", ErrorText) then begin
+            ErrorMgt.LogError(Enum::"UFC SI Error Stage"::Staging, HeaderTemp."I2I I6 Invoice ID", 0, CorrelationId, ErrorText);
             UpdatePullResult(Setup, ErrorText);
             exit;
         end;
 
         StoreValidatedPayload(HeaderTemp, LineTemp);
-        UpdatePullResult(Setup, StrSubstNo('Uploaded file %1 staged i6 invoice %2.', FileName, HeaderTemp."I6 Invoice ID"));
+        UpdatePullResult(Setup, StrSubstNo('Uploaded file %1 staged i6 invoice %2.', FileName, HeaderTemp."I2I I6 Invoice ID"));
     end;
 
     local procedure LogInboundErrorAndFail(var Setup: Record "UFC SI Integration Setup"; ErrorStage: Enum "UFC SI Error Stage"; InvoiceId: Code[20]; CorrelationId: Text; ErrorText: Text)
@@ -145,7 +145,7 @@ codeunit 50101 "UFC SI Import Mgt"
     begin
         ResponseJson.Add('status', 'Accepted');
         ResponseJson.Add('message', 'Mandatory validation passed and the invoice was stored in staging.');
-        ResponseJson.Add('i6InvoiceId', HeaderTemp."I6 Invoice ID");
+        ResponseJson.Add('i6InvoiceId', HeaderTemp."I2I I6 Invoice ID");
         ResponseJson.Add('correlationId', CorrelationId);
         ResponseJson.Add('stagingStatus', 'Open');
         ResponseJson.WriteTo(ResponseText);
@@ -158,25 +158,25 @@ codeunit 50101 "UFC SI Import Mgt"
             exit;
 
         Setup.Init();
-        Setup."Primary Key" := 'SETUP';
+        Setup."I2I Primary Key" := 'SETUP';
         Setup.Insert(true);
     end;
 
     local procedure GetEndpointUrl(Setup: Record "UFC SI Integration Setup"): Text
     begin
-        if Setup."Request Query" = '' then
-            exit(Setup."Endpoint URL");
+        if Setup."I2I Request Query" = '' then
+            exit(Setup."I2I Endpoint URL");
 
-        if StrPos(Setup."Endpoint URL", '?') > 0 then
-            exit(Setup."Endpoint URL" + '&' + Setup."Request Query");
+        if StrPos(Setup."I2I Endpoint URL", '?') > 0 then
+            exit(Setup."I2I Endpoint URL" + '&' + Setup."I2I Request Query");
 
-        exit(Setup."Endpoint URL" + '?' + Setup."Request Query");
+        exit(Setup."I2I Endpoint URL" + '?' + Setup."I2I Request Query");
     end;
 
     local procedure UpdatePullResult(var Setup: Record "UFC SI Integration Setup"; Message: Text)
     begin
-        Setup."Last Pull At" := CurrentDateTime();
-        Setup."Last Pull Message" := CopyStr(Message, 1, MaxStrLen(Setup."Last Pull Message"));
+        Setup."I2I Last Pull At" := CurrentDateTime();
+        Setup."I2I Last Pull Message" := CopyStr(Message, 1, MaxStrLen(Setup."I2I Last Pull Message"));
         Setup.Modify(true);
     end;
 
@@ -209,29 +209,29 @@ codeunit 50101 "UFC SI Import Mgt"
         HeaderJson := JsonToken.AsObject();
 
         HeaderTemp.Init();
-        HeaderTemp."Entry No." := 1;
+        HeaderTemp."I2I Entry No." := 1;
         if not GetRequiredText(HeaderJson, 'OrderNumber', RequiredText, ErrorText) then
             exit(false);
-        HeaderTemp."I6 Invoice ID" := CopyStr(RequiredText, 1, MaxStrLen(HeaderTemp."I6 Invoice ID"));
+        HeaderTemp."I2I I6 Invoice ID" := CopyStr(RequiredText, 1, MaxStrLen(HeaderTemp."I2I I6 Invoice ID"));
         if not GetRequiredText(HeaderJson, 'CustomerNumber', RequiredText, ErrorText) then
             exit(false);
-        HeaderTemp."Customer No." := CopyStr(RequiredText, 1, MaxStrLen(HeaderTemp."Customer No."));
+        HeaderTemp."I2I Customer No." := CopyStr(RequiredText, 1, MaxStrLen(HeaderTemp."I2I Customer No."));
         if not GetRequiredText(HeaderJson, 'Orderdate', ShipmentDateText, ErrorText) then
             exit(false);
-        if not Evaluate(HeaderTemp."Shipment Date", ShipmentDateText) then begin
+        if not Evaluate(HeaderTemp."I2I Shipment Date", ShipmentDateText) then begin
             ErrorText := 'Header.Orderdate is not a valid date.';
             exit(false);
         end;
         if not GetRequiredText(HeaderJson, 'ExternalDocumentNo', RequiredText, ErrorText) then
             exit(false);
-        HeaderTemp."External Document No." := CopyStr(RequiredText, 1, MaxStrLen(HeaderTemp."External Document No."));
+        HeaderTemp."I2I External Document No." := CopyStr(RequiredText, 1, MaxStrLen(HeaderTemp."I2I External Document No."));
 
-        HeaderTemp."I6 VAT Code" := CopyStr(GetOptionalText(HeaderJson, 'VATPERN'), 1, MaxStrLen(HeaderTemp."I6 VAT Code"));
-        HeaderTemp."Location Code" := CopyStr(GetOptionalText(HeaderJson, 'Location'), 1, MaxStrLen(HeaderTemp."Location Code"));
-        HeaderTemp."Source System" := SourceSystem;
-        HeaderTemp."Correlation ID" := CopyStr(CorrelationId, 1, MaxStrLen(HeaderTemp."Correlation ID"));
-        HeaderTemp."Integration Status" := Enum::"UFC SI Integration Status"::Open;
-        HeaderTemp."Received At" := CurrentDateTime();
+        HeaderTemp."I2I I6 VAT Code" := CopyStr(GetOptionalText(HeaderJson, 'VATPERN'), 1, MaxStrLen(HeaderTemp."I2I I6 VAT Code"));
+        HeaderTemp."I2I Location Code" := CopyStr(GetOptionalText(HeaderJson, 'Location'), 1, MaxStrLen(HeaderTemp."I2I Location Code"));
+        HeaderTemp."I2I Source System" := SourceSystem;
+        HeaderTemp."I2I Correlation ID" := CopyStr(CorrelationId, 1, MaxStrLen(HeaderTemp."I2I Correlation ID"));
+        HeaderTemp."I2I Integration Status" := Enum::"UFC SI Integration Status"::Open;
+        HeaderTemp."I2I Received At" := CurrentDateTime();
 
         if not RootJson.Get('Body', JsonToken) then begin
             ErrorText := 'Body is missing from the i6 response.';
@@ -247,57 +247,57 @@ codeunit 50101 "UFC SI Import Mgt"
             BodyJson.Get(Index, JsonToken);
             LineJson := JsonToken.AsObject();
             LineTemp.Init();
-            LineTemp."Entry No." := Index + 1;
-            LineTemp."Header Entry No." := HeaderTemp."Entry No.";
+            LineTemp."I2I Entry No." := Index + 1;
+            LineTemp."I2I Header Entry No." := HeaderTemp."I2I Entry No.";
             if not GetRequiredInteger(LineJson, 'LineItemNumber', LineNo, ErrorText) then begin
                 ErrorText := StrSubstNo('Body[%1]: %2', Index + 1, ErrorText);
                 exit(false);
             end;
-            LineTemp."I6 Line Item Number" := LineNo;
+            LineTemp."I2I I6 Line Item Number" := LineNo;
             if not GetRequiredText(LineJson, 'Item', RequiredText, ErrorText) then begin
                 ErrorText := StrSubstNo('Body[%1]: %2', Index + 1, ErrorText);
                 exit(false);
             end;
-            LineTemp."Item No." := CopyStr(RequiredText, 1, MaxStrLen(LineTemp."Item No."));
+            LineTemp."I2I Item No." := CopyStr(RequiredText, 1, MaxStrLen(LineTemp."I2I Item No."));
             if not GetRequiredText(LineJson, 'Description', RequiredText, ErrorText) then begin
                 ErrorText := StrSubstNo('Body[%1]: %2', Index + 1, ErrorText);
                 exit(false);
             end;
-            LineTemp.Description := CopyStr(RequiredText, 1, MaxStrLen(LineTemp.Description));
+            LineTemp."I2I Description" := CopyStr(RequiredText, 1, MaxStrLen(LineTemp."I2I Description"));
             if not GetRequiredText(LineJson, 'Location', RequiredText, ErrorText) then begin
                 ErrorText := StrSubstNo('Body[%1]: %2', Index + 1, ErrorText);
                 exit(false);
             end;
-            LineTemp."Location Code" := CopyStr(RequiredText, 1, MaxStrLen(LineTemp."Location Code"));
+            LineTemp."I2I Location Code" := CopyStr(RequiredText, 1, MaxStrLen(LineTemp."I2I Location Code"));
             if not GetRequiredDecimal(LineJson, 'QuantityOrdered', RequiredQuantity, ErrorText) then begin
                 ErrorText := StrSubstNo('Body[%1]: %2', Index + 1, ErrorText);
                 exit(false);
             end;
-            LineTemp.Quantity := RequiredQuantity;
+            LineTemp."I2I Quantity" := RequiredQuantity;
             if not GetRequiredText(LineJson, 'PricingUnitOfMeasure', RequiredText, ErrorText) then begin
                 ErrorText := StrSubstNo('Body[%1]: %2', Index + 1, ErrorText);
                 exit(false);
             end;
-            LineTemp."Unit of Measure Code" := CopyStr(RequiredText, 1, MaxStrLen(LineTemp."Unit of Measure Code"));
+            LineTemp."I2I Unit of Measure Code" := CopyStr(RequiredText, 1, MaxStrLen(LineTemp."I2I Unit of Measure Code"));
             if not GetRequiredText(LineJson, 'TicketNo', RequiredText, ErrorText) then begin
                 ErrorText := StrSubstNo('Body[%1]: %2', Index + 1, ErrorText);
                 exit(false);
             end;
-            LineTemp."Ticket No." := CopyStr(RequiredText, 1, MaxStrLen(LineTemp."Ticket No."));
+            LineTemp."I2I Ticket No." := CopyStr(RequiredText, 1, MaxStrLen(LineTemp."I2I Ticket No."));
             if not GetRequiredText(LineJson, 'Destination', RequiredText, ErrorText) then begin
                 ErrorText := StrSubstNo('Body[%1]: %2', Index + 1, ErrorText);
                 exit(false);
             end;
-            LineTemp.Destination := CopyStr(RequiredText, 1, MaxStrLen(LineTemp.Destination));
+            LineTemp."I2I Destination" := CopyStr(RequiredText, 1, MaxStrLen(LineTemp."I2I Destination"));
             if not GetRequiredText(LineJson, 'AircraftRegistration', RequiredText, ErrorText) then begin
                 ErrorText := StrSubstNo('Body[%1]: %2', Index + 1, ErrorText);
                 exit(false);
             end;
-            LineTemp.Registration := CopyStr(RequiredText, 1, MaxStrLen(LineTemp.Registration));
-            LineTemp."Flight No." := CopyStr(GetOptionalText(LineJson, 'FlightCode'), 1, MaxStrLen(LineTemp."Flight No."));
-            LineTemp."Aircraft Type" := CopyStr(GetOptionalText(LineJson, 'AircraftType'), 1, MaxStrLen(LineTemp."Aircraft Type"));
-            LineTemp."Sub Customer" := 'NA';
-            LineTemp."Integration Status" := Enum::"UFC SI Integration Status"::Open;
+            LineTemp."I2I Registration" := CopyStr(RequiredText, 1, MaxStrLen(LineTemp."I2I Registration"));
+            LineTemp."I2I Flight No." := CopyStr(GetOptionalText(LineJson, 'FlightCode'), 1, MaxStrLen(LineTemp."I2I Flight No."));
+            LineTemp."I2I Aircraft Type" := CopyStr(GetOptionalText(LineJson, 'AircraftType'), 1, MaxStrLen(LineTemp."I2I Aircraft Type"));
+            LineTemp."I2I Sub Customer" := 'NA';
+            LineTemp."I2I Integration Status" := Enum::"UFC SI Integration Status"::Open;
             LineTemp.Insert();
         end;
 
@@ -390,7 +390,7 @@ codeunit 50101 "UFC SI Import Mgt"
         HeaderStaging: Record "UFC SI Header Staging";
         SalesHeader: Record "Sales Header";
     begin
-        HeaderStaging.SetRange("I6 Invoice ID", InvoiceId);
+        HeaderStaging.SetRange("I2I I6 Invoice ID", InvoiceId);
         if HeaderStaging.FindFirst() then begin
             ErrorText := StrSubstNo('i6 invoice %1 already exists in staging.', InvoiceId);
             exit(false);
@@ -410,35 +410,35 @@ codeunit 50101 "UFC SI Import Mgt"
         LineStaging: Record "UFC SI Line Staging";
     begin
         HeaderStaging.Init();
-        HeaderStaging."I6 Invoice ID" := HeaderTemp."I6 Invoice ID";
-        HeaderStaging."Customer No." := HeaderTemp."Customer No.";
-        HeaderStaging."Shipment Date" := HeaderTemp."Shipment Date";
-        HeaderStaging."External Document No." := HeaderTemp."External Document No.";
-        HeaderStaging."I6 VAT Code" := HeaderTemp."I6 VAT Code";
-        HeaderStaging."Location Code" := HeaderTemp."Location Code";
-        HeaderStaging."Integration Status" := Enum::"UFC SI Integration Status"::Open;
-        HeaderStaging."Received At" := HeaderTemp."Received At";
-        HeaderStaging."Source System" := HeaderTemp."Source System";
-        HeaderStaging."Correlation ID" := HeaderTemp."Correlation ID";
+        HeaderStaging."I2I I6 Invoice ID" := HeaderTemp."I2I I6 Invoice ID";
+        HeaderStaging."I2I Customer No." := HeaderTemp."I2I Customer No.";
+        HeaderStaging."I2I Shipment Date" := HeaderTemp."I2I Shipment Date";
+        HeaderStaging."I2I External Document No." := HeaderTemp."I2I External Document No.";
+        HeaderStaging."I2I I6 VAT Code" := HeaderTemp."I2I I6 VAT Code";
+        HeaderStaging."I2I Location Code" := HeaderTemp."I2I Location Code";
+        HeaderStaging."I2I Integration Status" := Enum::"UFC SI Integration Status"::Open;
+        HeaderStaging."I2I Received At" := HeaderTemp."I2I Received At";
+        HeaderStaging."I2I Source System" := HeaderTemp."I2I Source System";
+        HeaderStaging."I2I Correlation ID" := HeaderTemp."I2I Correlation ID";
         HeaderStaging.Insert(true);
 
         if LineTemp.FindSet() then
             repeat
                 LineStaging.Init();
-                LineStaging."Header Entry No." := HeaderStaging."Entry No.";
-                LineStaging."I6 Line Item Number" := LineTemp."I6 Line Item Number";
-                LineStaging."Item No." := LineTemp."Item No.";
-                LineStaging.Description := LineTemp.Description;
-                LineStaging."Location Code" := LineTemp."Location Code";
-                LineStaging.Quantity := LineTemp.Quantity;
-                LineStaging."Unit of Measure Code" := LineTemp."Unit of Measure Code";
-                LineStaging."Ticket No." := LineTemp."Ticket No.";
-                LineStaging.Destination := LineTemp.Destination;
-                LineStaging.Registration := LineTemp.Registration;
-                LineStaging."Flight No." := LineTemp."Flight No.";
-                LineStaging."Sub Customer" := LineTemp."Sub Customer";
-                LineStaging."Aircraft Type" := LineTemp."Aircraft Type";
-                LineStaging."Integration Status" := Enum::"UFC SI Integration Status"::Open;
+                LineStaging."I2I Header Entry No." := HeaderStaging."I2I Entry No.";
+                LineStaging."I2I I6 Line Item Number" := LineTemp."I2I I6 Line Item Number";
+                LineStaging."I2I Item No." := LineTemp."I2I Item No.";
+                LineStaging."I2I Description" := LineTemp."I2I Description";
+                LineStaging."I2I Location Code" := LineTemp."I2I Location Code";
+                LineStaging."I2I Quantity" := LineTemp."I2I Quantity";
+                LineStaging."I2I Unit of Measure Code" := LineTemp."I2I Unit of Measure Code";
+                LineStaging."I2I Ticket No." := LineTemp."I2I Ticket No.";
+                LineStaging."I2I Destination" := LineTemp."I2I Destination";
+                LineStaging."I2I Registration" := LineTemp."I2I Registration";
+                LineStaging."I2I Flight No." := LineTemp."I2I Flight No.";
+                LineStaging."I2I Sub Customer" := LineTemp."I2I Sub Customer";
+                LineStaging."I2I Aircraft Type" := LineTemp."I2I Aircraft Type";
+                LineStaging."I2I Integration Status" := Enum::"UFC SI Integration Status"::Open;
                 LineStaging.Insert(true);
             until LineTemp.Next() = 0;
     end;

@@ -12,15 +12,15 @@ page 50101 "UFC SI VAT Mapping"
         {
             repeater(Control1)
             {
-                field("I6 VAT Code"; Rec."I6 VAT Code")
+                field("I6 VAT Code"; Rec."I2I I6 VAT Code")
                 {
                     ApplicationArea = All;
                 }
-                field("VAT Business Posting Group"; Rec."VAT Business Posting Group")
+                field("VAT Business Posting Group"; Rec."I2I VAT Bus. Posting Group")
                 {
                     ApplicationArea = All;
                 }
-                field(Description; Rec.Description)
+                field(Description; Rec."I2I Description")
                 {
                     ApplicationArea = All;
                 }

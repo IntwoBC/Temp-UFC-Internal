@@ -9,13 +9,13 @@ codeunit 50105 "UFC SI Install"
     begin
         if not Setup.Get('SETUP') then begin
             Setup.Init();
-            Setup."Primary Key" := 'SETUP';
+            Setup."I2I Primary Key" := 'SETUP';
             Setup.Insert(true);
         end;
 
         if not ActivityCue.Get('CUE') then begin
             ActivityCue.Init();
-            ActivityCue."Primary Key" := 'CUE';
+            ActivityCue."I2I Primary Key" := 'CUE';
             ActivityCue.Insert(true);
         end;
     end;

@@ -29,6 +29,12 @@ page 50111 "UFC Integration Dashboard"
                     Page.RunModal(Page::"UFC SI Integration Setup");
                     LoadHub();
                 end;
+
+                trigger OpenPurchase()
+                begin
+                    Page.RunModal(Page::"I2I Purchase Order Hdr Staging");
+                    LoadHub();
+                end;
             }
         }
     }
@@ -71,7 +77,7 @@ page 50111 "UFC Integration Dashboard"
     var
         HeaderStaging: Record "UFC SI Header Staging";
     begin
-        HeaderStaging.SetRange("Integration Status", Status);
+        HeaderStaging.SetRange("I2I Integration Status", Status);
         exit(HeaderStaging.Count());
     end;
 }

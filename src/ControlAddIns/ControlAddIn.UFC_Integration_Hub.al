@@ -13,6 +13,6 @@ controladdin "UFC Integration Hub"
     event AddInReady();
     event OpenSales();
     event OpenSetup();
-
+    event OpenPurchase();
     procedure RenderHub(HubJson: Text)
 }

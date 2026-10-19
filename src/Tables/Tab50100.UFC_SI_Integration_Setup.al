@@ -5,57 +5,57 @@ table 50100 "UFC SI Integration Setup"
 
     fields
     {
-        field(1; "Primary Key"; Code[10])
+        field(1; "I2I Primary Key"; Code[10])
         {
             Caption = 'Primary Key';
             DataClassification = SystemMetadata;
         }
-        field(10; "Endpoint URL"; Text[2048])
+        field(10; "I2I Endpoint URL"; Text[2048])
         {
             Caption = 'Legacy i6 Endpoint URL';
             DataClassification = SystemMetadata;
             ExtendedDatatype = URL;
         }
-        field(11; "Request Query"; Text[2048])
+        field(11; "I2I Request Query"; Text[2048])
         {
             Caption = 'Request Query';
             DataClassification = SystemMetadata;
         }
-        field(12; "Authorization Type"; Enum "UFC SI Authorization Type")
+        field(12; "I2I Authorization Type"; Enum "UFC SI Authorization Type")
         {
             Caption = 'Legacy Outbound Authorization Type';
             DataClassification = SystemMetadata;
         }
-        field(13; "Authorization Reference"; Code[100])
+        field(13; "I2I Authorization Reference"; Code[100])
         {
             Caption = 'Legacy Outbound Authorization Reference';
             DataClassification = SystemMetadata;
             ToolTip = 'Identifies the approved secure secret, certificate, or OAuth configuration. Do not store the actual credential in this setup table.';
         }
-        field(14; "API Version"; Code[20])
+        field(14; "I2I API Version"; Code[20])
         {
             Caption = 'API Version';
             DataClassification = SystemMetadata;
         }
-        field(15; "Pull Enabled"; Boolean)
+        field(15; "I2I Pull Enabled"; Boolean)
         {
             Caption = 'Inbound Service Enabled';
             DataClassification = SystemMetadata;
             InitValue = true;
         }
-        field(16; "Default Source System"; Code[20])
+        field(16; "I2I Default Source System"; Code[20])
         {
             Caption = 'Default Source System';
             DataClassification = SystemMetadata;
             InitValue = 'i6';
         }
-        field(17; "Last Pull At"; DateTime)
+        field(17; "I2I Last Pull At"; DateTime)
         {
             Caption = 'Last i6 Receipt At';
             DataClassification = SystemMetadata;
             Editable = false;
         }
-        field(18; "Last Pull Message"; Text[250])
+        field(18; "I2I Last Pull Message"; Text[250])
         {
             Caption = 'Last i6 Receipt Message';
             DataClassification = SystemMetadata;
@@ -65,7 +65,7 @@ table 50100 "UFC SI Integration Setup"
 
     keys
     {
-        key(PK; "Primary Key")
+        key(PK; "I2I Primary Key")
         {
             Clustered = true;
         }
@@ -73,10 +73,10 @@ table 50100 "UFC SI Integration Setup"
 
     trigger OnInsert()
     begin
-        if "Primary Key" = '' then
-            "Primary Key" := 'SETUP';
+        if "I2I Primary Key" = '' then
+            "I2I Primary Key" := 'SETUP';
 
-        if "Default Source System" = '' then
-            "Default Source System" := 'i6';
+        if "I2I Default Source System" = '' then
+            "I2I Default Source System" := 'i6';
     end;
 }

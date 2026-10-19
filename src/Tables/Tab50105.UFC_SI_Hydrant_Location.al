@@ -7,18 +7,18 @@ table 50105 "UFC SI Hydrant Location"
 
     fields
     {
-        field(1; "Location Code"; Code[10])
+        field(1; "I2I Location Code"; Code[10])
         {
             Caption = 'Location Code';
             DataClassification = CustomerContent;
             TableRelation = Location;
         }
-        field(2; "Auto Purchase Enabled"; Boolean)
+        field(2; "I2I Auto Purchase Enabled"; Boolean)
         {
             Caption = 'Auto Purchase Enabled';
             DataClassification = SystemMetadata;
         }
-        field(3; "Vendor No."; Code[20])
+        field(3; "I2I Vendor No."; Code[20])
         {
             Caption = 'Vendor No.';
             DataClassification = CustomerContent;
@@ -28,7 +28,7 @@ table 50105 "UFC SI Hydrant Location"
 
     keys
     {
-        key(PK; "Location Code")
+        key(PK; "I2I Location Code")
         {
             Clustered = true;
         }

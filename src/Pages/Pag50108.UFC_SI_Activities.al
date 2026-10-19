@@ -14,7 +14,7 @@ page 50108 "UFC SI Activities"
             {
                 Caption = 'Sales Invoice Integration';
 
-                field("Ready to Process"; Rec."Ready to Process")
+                field("Ready to Process"; Rec."I2I Ready to Process")
                 {
                     ApplicationArea = All;
                     Style = Favorable;
@@ -24,7 +24,7 @@ page 50108 "UFC SI Activities"
                         OpenStaging(Enum::"UFC SI Integration Status"::Open);
                     end;
                 }
-                field("Attention Required"; Rec."Attention Required")
+                field("Attention Required"; Rec."I2I Attention Required")
                 {
                     ApplicationArea = All;
                     Style = Unfavorable;
@@ -34,7 +34,7 @@ page 50108 "UFC SI Activities"
                         OpenStaging(Enum::"UFC SI Integration Status"::Failed);
                     end;
                 }
-                field("In Progress"; Rec."In Progress")
+                field("In Progress"; Rec."I2I In Progress")
                 {
                     ApplicationArea = All;
                     Style = Attention;
@@ -44,7 +44,7 @@ page 50108 "UFC SI Activities"
                         OpenStaging(Enum::"UFC SI Integration Status"::Processing);
                     end;
                 }
-                field("Processed Successfully"; Rec."Processed Successfully")
+                field("Processed Successfully"; Rec."I2I Processed Successfully")
                 {
                     ApplicationArea = All;
 
@@ -61,7 +61,7 @@ page 50108 "UFC SI Activities"
     begin
         if not Rec.Get('CUE') then begin
             Rec.Init();
-            Rec."Primary Key" := 'CUE';
+            Rec."I2I Primary Key" := 'CUE';
             Rec.Insert(true);
         end;
     end;
@@ -70,7 +70,7 @@ page 50108 "UFC SI Activities"
     var
         HeaderStaging: Record "UFC SI Header Staging";
     begin
-        HeaderStaging.SetRange("Integration Status", Status);
+        HeaderStaging.SetRange("I2I Integration Status", Status);
         Page.Run(Page::"UFC SI Staging List", HeaderStaging);
     end;
 }
