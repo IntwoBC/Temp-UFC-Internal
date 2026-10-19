@@ -1,0 +1,25 @@
+{
+  "Header": {
+    "OrderNumber": "I6-SI-000005",
+    "CustomerNumber": "10000",
+    "Orderdate": "2026-10-08",
+    "ExternalDocumentNo": "I6-SI-000005",
+    "VATPERN": "VAT20",
+    "Location": "DUB"
+  },
+  "Body": [
+    {
+      "LineItemNumber": 1,
+      "Item": "ITEM-001",
+      "Description": "Aviation fuel service",
+      "Location": "DUB",
+      "QuantityOrdered": 250,
+      "PricingUnitOfMeasure": "LTR",
+      "TicketNo": "TKT-0001",
+      "Destination": "LHR",
+      "AircraftRegistration": "EI-ABC",
+      "FlightCode": "UFC101",
+      "AircraftType": "A320"
+    }
+  ]
+}
